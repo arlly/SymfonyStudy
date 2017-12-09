@@ -1,0 +1,11 @@
+services:
+    app.inquiry.get_one:
+        class: AppBundle\Fulcrum\Usecase\GetOne
+        arguments: ["@app.inquiry_repository"]
+
+
+    app.inquiry_repository:
+        class:  AppBundle\Repository\InquiryRepository
+        factory: ["@doctrine.orm.default_entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Inquiry

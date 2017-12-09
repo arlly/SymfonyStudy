@@ -1,0 +1,11 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type:     annotation
+    prefix:   /
+    
+test:
+    path: /test/number
+    defaults:  { _controller: AppBundle:Test:number }
+
+    path: /test/apiNumber
+    defaults:  { _controller: AppBundle:Test:apiNumber }
