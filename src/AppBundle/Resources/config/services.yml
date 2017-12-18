@@ -2,7 +2,10 @@ services:
     app.inquiry.get_one:
         class: AppBundle\Fulcrum\Usecase\GetOne
         arguments: ["@app.inquiry_repository"]
-
+        
+    app.inquiry.search:
+        class: AppBundle\Fulcrum\Usecase\Search
+        arguments: ["@app.inquiry_repository"]
 
     app.inquiry_repository:
         class:  AppBundle\Repository\InquiryRepository
