@@ -24,8 +24,7 @@ class IdCriteriaBuilder implements CriteriaBuilderInterface
         $criteria = new Criteria();
         $criteria->excludeDeleted($this->excludeDeleted);
 
-        $criteria->where($criteria->expr()
-            ->eq('id', $this->id));
+        $criteria->where($criteria->expr()->eq('id', $this->id));
 
         return $criteria;
     }

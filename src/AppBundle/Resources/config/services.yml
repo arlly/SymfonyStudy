@@ -6,6 +6,10 @@ services:
     app.inquiry.search:
         class: AppBundle\Fulcrum\Usecase\Search
         arguments: ["@app.inquiry_repository"]
+        
+    app.inquiry.create:
+        class: AppBundle\Fulcrum\Usecase\CreateEntity
+        arguments: ["@app.inquiry_repository", "@event_dispatcher"]
 
     app.inquiry_repository:
         class:  AppBundle\Repository\InquiryRepository

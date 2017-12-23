@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Form\InquiryType;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Inquiry;
 
 /**
  * @Route("/inquiry")
@@ -21,7 +22,7 @@ class InquiryController extends Controller
      */
     public function inputAction()
     {
-        $form = $this->createForm(InquiryType::class);
+        $form = $this->createForm(InquiryType::class, new Inquiry());
 
         return $this->render('default/inquiry.html.twig', [
             'form' => $form->createView()
@@ -35,14 +36,15 @@ class InquiryController extends Controller
      */
     public function inputPostAction(Request $request)
     {
-        $form = $this->createForm(InquiryType::class);
+        $form = $this->createForm(InquiryType::class, new Inquiry());
         $form->handleRequest($request);
+        //$form->submit($request->request->all());
 
-        if ($form->isValid()) return $this->redirect($this->generateUrl('inquiry.complete'));
+        if (! $form->isValid()) return $this->render('default/inquiry.html.twig', ['form' => $form->createView()]);
 
-        return $this->render('default/inquiry.html.twig', [
-            'form' => $form->createView()
-        ]);
+        $inquiry = $form->getData();
+        $this->get('app.inquiry.create')->run($inquiry);
+        return $this->redirect($this->generateUrl('inquiry.complete'));
     }
 
     /**

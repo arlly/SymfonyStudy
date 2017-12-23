@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PHPMentors\DomainKata\Entity\EntityInterface;
 
 /**
  * Inquiry
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="inquiry")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\InquiryRepository")
  */
-class Inquiry
+class Inquiry implements EntityInterface
 {
     /**
      * @var int

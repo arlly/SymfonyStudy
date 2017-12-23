@@ -18,7 +18,8 @@ class InquiryRepository extends EntityRepository implements RepositoryInterface
 
     public function add(EntityInterface $entity)
     {
-        //
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
     }
 
     public function queryByCriteria(CriteriaBuilderInterface $criteriaBuilder)
@@ -35,7 +36,7 @@ class InquiryRepository extends EntityRepository implements RepositoryInterface
 
     public function update(EntityInterface $entity)
     {
-        //
+        $this->getEntityManager()->merge($entity);
     }
 
     public function getOneByCriteria(CriteriaBuilderInterface $criteriaBuilder)
