@@ -37,6 +37,7 @@ class InquiryRepository extends EntityRepository implements RepositoryInterface
     public function update(EntityInterface $entity)
     {
         $this->getEntityManager()->merge($entity);
+        $this->getEntityManager()->flush();
     }
 
     public function getOneByCriteria(CriteriaBuilderInterface $criteriaBuilder)
