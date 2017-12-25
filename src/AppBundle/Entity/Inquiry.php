@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use PHPMentors\DomainKata\Entity\EntityInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Inquiry
@@ -24,21 +25,24 @@ class Inquiry implements EntityInterface
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min = 2,max = 255)
      * @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
      * @var string
-     *
+     * @Assert\NotNull()
+     * @Assert\Email()
      * @ORM\Column(name="email", type="string", length=100)
      */
     private $email;
 
     /**
      * @var string
-     *
+     * @Assert\NotNull()
+     * @Assert\Regex(pattern="/^[0-9\-]*$/", message="半角数字とハイフンのみです。")
      * @ORM\Column(name="tel", type="string", length=20)
      */
     private $tel;
@@ -52,7 +56,7 @@ class Inquiry implements EntityInterface
 
     /**
      * @var string
-     *
+     * @Assert\Length(min = 2,max = 5000)
      * @ORM\Column(name="content", type="text")
      */
     private $content;
