@@ -14,6 +14,10 @@ services:
     app.inquiry.update:
         class: AppBundle\Fulcrum\Usecase\UpdateEntity
         arguments: ["@app.inquiry_repository", "@event_dispatcher"]
+        
+    app.inquiry.remove:
+        class: AppBundle\Fulcrum\Usecase\RemoveEntity
+        arguments: ["@app.inquiry_repository", "@event_dispatcher"]
 
     app.inquiry_repository:
         class:  AppBundle\Repository\InquiryRepository

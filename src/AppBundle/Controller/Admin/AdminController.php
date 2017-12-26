@@ -67,7 +67,6 @@ class AdminController extends Controller
         ));
     }
 
-
     /**
      * @method ("POST")
      * @Route("/admin/get/{id}", name="inquiry.edit")
@@ -90,6 +89,17 @@ class AdminController extends Controller
         return $this->redirect($this->generateUrl('admin.index'));
     }
 
+    /**
+     * @method ("GET")
+     * @Route("/admin/remove/{id}", name="inquiry.remove")
+     */
+    public function removeAction(int $id)
+    {
+        $inquiry = $this->get('app.inquiry.get_one')->run(new IdCriteriaBuilder($id, false));
+        $this->get('app.inquiry.remove')->run($inquiry);
+
+        return $this->redirect($this->generateUrl('admin.index'));
+    }
 
     private function createInquiryForm()
     {

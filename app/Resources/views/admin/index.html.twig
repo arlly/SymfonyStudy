@@ -21,7 +21,7 @@
     <td>{{ inquiry.email }}</td>
     <td>{{ inquiry.tel }}</td>
     <td><a href={{ path('inquiry.get', {"id": inquiry.id}) }}>編集</a></td>
-    <td>削除</td>
+    <td><a href={{ path('inquiry.remove', {"id": inquiry.id}) }}>削除</a></td>
 </tr>
 {% endfor %}
 </table>

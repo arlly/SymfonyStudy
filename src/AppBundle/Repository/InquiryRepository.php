@@ -42,13 +42,13 @@ class InquiryRepository extends EntityRepository implements RepositoryInterface
 
     public function getOneByCriteria(CriteriaBuilderInterface $criteriaBuilder)
     {
-        //
         $query = $this->queryByCriteria($criteriaBuilder);
         return $query->getOneOrNullResult();
     }
 
     public function remove(EntityInterface $entity)
     {
-        //
+        $this->getEntityManager()->remove($entity);
+        $this->getEntityManager()->flush();
     }
 }
