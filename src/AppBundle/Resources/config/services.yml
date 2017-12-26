@@ -10,6 +10,10 @@ services:
     app.inquiry.create:
         class: AppBundle\Fulcrum\Usecase\CreateEntity
         arguments: ["@app.inquiry_repository", "@event_dispatcher"]
+        
+    app.inquiry.update:
+        class: AppBundle\Fulcrum\Usecase\UpdateEntity
+        arguments: ["@app.inquiry_repository", "@event_dispatcher"]
 
     app.inquiry_repository:
         class:  AppBundle\Repository\InquiryRepository

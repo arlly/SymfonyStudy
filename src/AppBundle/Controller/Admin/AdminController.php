@@ -22,12 +22,12 @@ class AdminController extends Controller
     /**
      *
      * @method ("GET")
-     *         @Route("/admin/index")
+     * @Route("/admin/index", name="admin.index")
      */
     public function indexAction()
     {
         $inquiries = $this->get('app.inquiry_repository')->findAll();
-        
+
         return $this->render('admin/index.html.twig', array(
             'inquiryList' => $inquiries,
             'form' => $this->createInquiryForm()
@@ -38,13 +38,13 @@ class AdminController extends Controller
     /**
      *
      * @method ("POST")
-     *         @Route("/admin/index")
+     * @Route("/admin/index")
      */
     public function postAction(Request $request)
     {
         $form = $this->createInquiryForm();
         $form->handleRequest($request);
-        
+
         $query = $this->get('app.inquiry.search')->run(new InquiryCriteriaBuilder($request->request));
         $paginator = new Paginator($query);
         dump($paginator->getIterator()->getArrayCopy());
@@ -52,19 +52,44 @@ class AdminController extends Controller
     }
 
     /**
+     * @method ("GET")
      * @Route("/admin/get/{id}", name="inquiry.get")
      */
     public function getAction(int $id)
     {
         $inquiry = $this->get('app.inquiry.get_one')->run(new IdCriteriaBuilder($id, false));
-        
+
         $form = $this->createForm(AdminInquiryType::class, $inquiry);
-        
+
         return $this->render('admin/inquiry/edit.html.twig', array(
             'inquiry' => $inquiry,
             'form' => $form->createView()
         ));
     }
+
+
+    /**
+     * @method ("POST")
+     * @Route("/admin/get/{id}", name="inquiry.edit")
+     */
+    public function editAction(int $id, Request $request)
+    {
+        $inquiry = $this->get('app.inquiry.get_one')->run(new IdCriteriaBuilder($id, false));
+        $form = $this->createForm(AdminInquiryType::class, $inquiry);
+        $form->handleRequest($request);
+
+        if (! $form->isValid()) {
+            return $this->render('admin/inquiry/edit.html.twig', array(
+                'inquiry' => $inquiry,
+                'form' => $form->createView()
+            ));
+        }
+
+        $this->get('app.inquiry.update')->run($inquiry);
+
+        return $this->redirect($this->generateUrl('admin.index'));
+    }
+
 
     private function createInquiryForm()
     {
