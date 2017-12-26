@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Criteria\InquiryCriteriaBuilder;
 use AppBundle\Controller\PaginatorTrait;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use AppBundle\Form\AdminInquiryType;
 
 class AdminController extends Controller
 {
@@ -21,31 +22,33 @@ class AdminController extends Controller
     /**
      *
      * @method ("GET")
-     * @Route("/admin/index")
+     *         @Route("/admin/index")
      */
     public function indexAction()
     {
         $inquiries = $this->get('app.inquiry_repository')->findAll();
-
+        
         return $this->render('admin/index.html.twig', array(
             'inquiryList' => $inquiries,
-            'form' => $this->createInquiryForm()->createView()
+            'form' => $this->createInquiryForm()
+                ->createView()
         ));
     }
 
     /**
      *
      * @method ("POST")
-     * @Route("/admin/index")
+     *         @Route("/admin/index")
      */
     public function postAction(Request $request)
     {
         $form = $this->createInquiryForm();
         $form->handleRequest($request);
-
+        
         $query = $this->get('app.inquiry.search')->run(new InquiryCriteriaBuilder($request->request));
         $paginator = new Paginator($query);
-        dump($paginator->getIterator()->getArrayCopy()); exit();
+        dump($paginator->getIterator()->getArrayCopy());
+        exit();
     }
 
     /**
@@ -54,16 +57,22 @@ class AdminController extends Controller
     public function getAction(int $id)
     {
         $inquiry = $this->get('app.inquiry.get_one')->run(new IdCriteriaBuilder($id, false));
-        dump($inquiry); exit();
+        
+        $form = $this->createForm(AdminInquiryType::class, $inquiry);
+        
+        return $this->render('admin/inquiry/edit.html.twig', array(
+            'inquiry' => $inquiry,
+            'form' => $form->createView()
+        ));
     }
 
     private function createInquiryForm()
     {
         return $this->createFormBuilder()
-                   ->add('q', TextType::class)
-                   ->add('search', SubmitType::class, array(
-                       'label' => '検索する'
-               ))
-               ->getForm();
+            ->add('q', TextType::class)
+            ->add('search', SubmitType::class, array(
+            'label' => '検索する'
+        ))
+            ->getForm();
     }
 }
