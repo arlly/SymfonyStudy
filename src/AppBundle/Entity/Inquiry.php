@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -14,76 +13,72 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Inquiry implements EntityInterface
 {
+
     /**
-     * @var int
      *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int @ORM\Column(name="id", type="integer")
+     *      @ORM\Id
+     *      @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
-     * @Assert\NotBlank()
-     * @Assert\Length(min = 2,max = 255)
-     * @ORM\Column(name="name", type="string", length=255)
+     *
+     * @var string @Assert\NotBlank()
+     *      @Assert\Length(min = 2,max = 255)
+     *      @ORM\Column(name="name", type="string", length=255)
      */
     private $name;
 
     /**
-     * @var string
-     * @Assert\NotNull()
-     * @Assert\Email()
-     * @ORM\Column(name="email", type="string", length=100)
+     *
+     * @var string @Assert\NotNull()
+     *      @Assert\Email()
+     *      @ORM\Column(name="email", type="string", length=100)
      */
     private $email;
 
     /**
-     * @var string
-     * @Assert\NotNull()
-     * @Assert\Regex(pattern="/^[0-9\-]*$/", message="半角数字とハイフンのみです。")
-     * @ORM\Column(name="tel", type="string", length=20)
+     *
+     * @var string @Assert\NotNull()
+     *      @Assert\Regex(pattern="/^[0-9\-]*$/", message="半角数字とハイフンのみです。")
+     *      @ORM\Column(name="tel", type="string", length=20)
      */
     private $tel;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="type", type="string", length=20)
+     * @var string @ORM\Column(name="type", type="string", length=20)
      */
     private $type;
 
     /**
-     * @var string
-     * @Assert\Length(min = 2,max = 5000)
-     * @ORM\Column(name="content", type="text")
+     *
+     * @var string @Assert\Length(min = 2,max = 5000)
+     *      @ORM\Column(name="content", type="text")
      */
     private $content;
 
     /**
-     * @var string
      *
-     * @Assert\NotBlank(groups={"admin"})
-     * @ORM\Column(name="process_status", type="string", length=20)
+     * @var string @Assert\NotBlank(groups={"admin"})
+     *      @ORM\Column(name="process_status", type="string", length=20)
      */
     private $processStatus;
 
-
     /**
-     * @var string
      *
-     * @Assert\NotBlank(groups={"admin"})
-     * @ORM\Column(name="process_memo", type="text")
+     * @var string @Assert\NotBlank(groups={"admin"})
+     *      @ORM\Column(name="process_memo", type="text")
      */
     private $processMemo;
-
 
     public function __construct()
     {
         $this->processStatus = 0;
         $this->processMemo = '';
     }
+
     /**
      * Get id
      *
@@ -104,7 +99,7 @@ class Inquiry implements EntityInterface
     public function setName($name)
     {
         $this->name = $name;
-
+        
         return $this;
     }
 
@@ -128,7 +123,7 @@ class Inquiry implements EntityInterface
     public function setEmail($email)
     {
         $this->email = $email;
-
+        
         return $this;
     }
 
@@ -152,7 +147,7 @@ class Inquiry implements EntityInterface
     public function setTel($tel)
     {
         $this->tel = $tel;
-
+        
         return $this;
     }
 
@@ -176,7 +171,7 @@ class Inquiry implements EntityInterface
     public function setType($type)
     {
         $this->type = $type;
-
+        
         return $this;
     }
 
@@ -200,7 +195,7 @@ class Inquiry implements EntityInterface
     public function setContent($content)
     {
         $this->content = $content;
-
+        
         return $this;
     }
 
@@ -224,7 +219,7 @@ class Inquiry implements EntityInterface
     public function setProcessStatus($processStatus)
     {
         $this->processStatus = $processStatus;
-
+        
         return $this;
     }
 
@@ -248,7 +243,7 @@ class Inquiry implements EntityInterface
     public function setProcessMemo($processMemo)
     {
         $this->processMemo = $processMemo;
-
+        
         return $this;
     }
 
