@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
+use AppBundle\Criteria\IdCriteriaBuilder;
 
 class InitCommandCommand extends ContainerAwareCommand
 {
@@ -56,9 +57,21 @@ class InitCommandCommand extends ContainerAwareCommand
     private function initProduct()
     {
         $sources = [
-            ['name' => 'グラハント', 'price' => '45000', 'description' => 'じぐろっどです', 'category_id' => 1],
-            ['name' => 'アウェイディスタンスライト', 'price' => '49000', 'description' => 'クランキングロッドです', 'category_id' => 4]
+            ['name' => 'TAV-GP69CMJ', 'price' => '51000', 'description' => '琵琶湖のなんでもロッドです。', 'category_id' => 2]
         ];
+
+        foreach ($sources as $val) {
+            $category = $this->getContainer()->get('app.category.get_one')->run(new IdCriteriaBuilder($val['category_id']));
+
+            $product = new Product();
+            $product->setName($val['name']);
+            $product->setPrice($val['price']);
+            $product->setDescription($val['description']);
+            $product->setCategory($category);
+
+            $this->getContainer()->get('app.product.create')->run($product);
+
+        }
 
 
     }
