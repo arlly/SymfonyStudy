@@ -40,6 +40,10 @@ services:
         class: AppBundle\Fulcrum\Usecase\RemoveEntity
         arguments: ["@app.product_repository", "@event_dispatcher"]
         
+    app.category.get_one:
+        class: AppBundle\Fulcrum\Usecase\GetOne
+        arguments: ["@app.category_repository"]
+        
     app.category.search:
         class: AppBundle\Fulcrum\Usecase\Search
         arguments: ["@app.category_repository"]

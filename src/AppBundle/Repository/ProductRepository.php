@@ -2,10 +2,11 @@
 
 namespace AppBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use AppBundle\Fulcrum\Repository\RepositoryInterface;
 use PHPMentors\DomainKata\Entity\EntityInterface;
 use PHPMentors\DomainKata\Repository\Operation\CriteriaBuilderInterface;
-use AppBundle\Fulcrum\Repository\RepositoryInterface;
+use AppBundle\Criteria\ToQueryBuilderInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * ProductRepository
@@ -23,7 +24,14 @@ class ProductRepository extends EntityRepository implements RepositoryInterface
 
     public function queryByCriteria(CriteriaBuilderInterface $criteriaBuilder)
     {
-        //
+        $queryBuilder = $this->createQueryBuilder('main');
+
+        if ($criteriaBuilder instanceof ToQueryBuilderInterface) {
+            $criteriaBuilder->buildToQueryBuilder($queryBuilder);
+            return $queryBuilder->getQuery();
+        } else {
+            return $queryBuilder->addCriteria($criteriaBuilder->build())->getQuery();
+        }
     }
 
     public function update(EntityInterface $entity)
