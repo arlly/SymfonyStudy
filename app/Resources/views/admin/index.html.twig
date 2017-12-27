@@ -1,5 +1,5 @@
 {# app/Resources/views/lucky/number.html.twig #}
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block body %}
 
@@ -7,14 +7,17 @@
 {{ form_widget(form) }}
 {{ form_end(form) }}
 
-<table class="table">
-<tr>
-    <th>なまえ</th>
-    <td>メール</td>
-    <td>電話番号</td>
-    <td>編集</td>
-    <td>削除</td>
-</tr>
+<div class="card">
+  <div class="body">
+    <div class="table-responsive">
+      <table class="table table-hover dashboard-task-infos">
+        <tr>
+          <th>なまえ</th>
+          <td>メール</td>
+          <td>電話番号</td>
+          <td>編集</td>
+          <td>削除</td>
+        </tr>
 {% for inquiry in inquiryList %}
 <tr>
     <th>{{ inquiry.name }}</th>
@@ -24,6 +27,9 @@
     <td><a href={{ path('inquiry.remove', {"id": inquiry.id}) }}>削除</a></td>
 </tr>
 {% endfor %}
-</table>
+      </table>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

@@ -1,8 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
 {% block body %}
 
-<table class="table">
+<div class="card">
+  <div class="body">
+    <div class="table-responsive">
+      <table class="table table-hover dashboard-task-infos">
     <tr>
         <th>ID</th>
         <td>{{ inquiry.id }}</td>
@@ -46,7 +49,10 @@
             {{ form_errors(form.processMemo) }}
         </td>
     </tr>
-</table>
+      </table>
+    </div>
+  </div>
+</div>
 
 {{ form_end(form) }}
 
