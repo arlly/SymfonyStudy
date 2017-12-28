@@ -109,7 +109,6 @@ class AdminController extends Controller
             ->add('q', TextType::class)
             ->add('search', SubmitType::class, array(
             'label' => '検索する'
-        ))
-            ->getForm();
+        ))->getForm();
     }
 }
