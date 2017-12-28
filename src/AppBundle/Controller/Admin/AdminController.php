@@ -24,14 +24,15 @@ class AdminController extends Controller
      * @method ("GET")
      * @Route("/admin/index", name="admin.index")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $inquiries = $this->get('app.inquiry_repository')->findAll();
+        //$query = $this->get('app.inquiry_repository')->findAll();
+        $query = $this->get('app.inquiry.search')->run(new InquiryCriteriaBuilder($request->request));
+        $inquiries = $this->getPaginatedResources($query, $request->query);
 
         return $this->render('admin/index.html.twig', array(
             'inquiryList' => $inquiries,
-            'form' => $this->createInquiryForm()
-                ->createView()
+            'form' => $this->createInquiryForm()->createView()
         ));
     }
 
@@ -46,9 +47,12 @@ class AdminController extends Controller
         $form->handleRequest($request);
 
         $query = $this->get('app.inquiry.search')->run(new InquiryCriteriaBuilder($request->request));
-        $paginator = new Paginator($query);
-        dump($paginator->getIterator()->getArrayCopy());
-        exit();
+        $inquiries = $this->getPaginatedResources($query, $request->query);
+        dump($inquiries); exit();
+        return $this->render('admin/index.html.twig', array(
+            'inquiryList' => $inquiries,
+            'form' => $this->createInquiryForm()->createView()
+        ));
     }
 
     /**
