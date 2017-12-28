@@ -10,6 +10,7 @@ trait PaginatorTrait
 
     protected function getPaginatedResources(Query $query, ParameterBag $requestQuery): array
     {
+        $query->setFirstResult(($requestQuery->get('page', 1)-1) * $query->getMaxResults());
         $paginator = new Paginator($query);
         $count = $paginator->count();
         $limit = $requestQuery->get('limit', $query->getMaxResults());

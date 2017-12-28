@@ -48,7 +48,7 @@ class AdminController extends Controller
 
         $query = $this->get('app.inquiry.search')->run(new InquiryCriteriaBuilder($request->request));
         $inquiries = $this->getPaginatedResources($query, $request->query);
-        dump($inquiries); exit();
+
         return $this->render('admin/index.html.twig', array(
             'inquiryList' => $inquiries,
             'form' => $this->createInquiryForm()->createView()
