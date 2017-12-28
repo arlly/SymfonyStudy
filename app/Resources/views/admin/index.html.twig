@@ -3,11 +3,24 @@
 
 {% block body %}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
+
+
+
 
 <div class="card">
+  {{ form_start(form) }}
+  <div class="row clearfix">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <div class="form-line">
+          {{ form_widget(form.q, {"attr": {"class":"form-control"}}) }}
+        </div>
+      </div>
+    </div>
+
+  {{ form_end(form) }}
+
+  </div>
   <div class="header">
     <h2>お問い合わせ一覧
       <small>検索結果 ({{ inquiryList.count }})</small>
@@ -29,15 +42,15 @@
     <nav>
       <ul class="pagination">
         <li>
-          <a href="?page=1">
+          <a href="?page=1&q={{ q }}">
             <i class="material-icons">chevron_left</i>
           </a>
         </li>
 {% for i in 1..inquiryList.maxPage %}
-        <li{% if (i == inquiryList.page) %} class="active"{% endif %}><a href="?page={{ i }}">{{ i }}</a></li>
+        <li{% if (i == inquiryList.page) %} class="active"{% endif %}><a href="?page={{ i }}&q={{ q }}">{{ i }}</a></li>
 {% endfor %}
         <li>
-          <a href="?page={{ inquiryList.maxPage }}" class="waves-effect">
+          <a href="?page={{ inquiryList.maxPage }}&q={{ q }}" class="waves-effect">
             <i class="material-icons">chevron_right</i>
           </a>
         </li>
