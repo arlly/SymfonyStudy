@@ -3,23 +3,78 @@
 
 {% block body %}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
+
+
+
 
 <div class="card">
+  {{ form_start(form) }}
+  <h2 class="card-inside-title">検索</h2>
+  <div class="row clearfix">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <div class="form-line">
+          {{ form_widget(form.q, {"attr": {"class":"form-control"}}) }}
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-line">
+          {{ form_widget(form.search, { 'class': 'btn btn-primary m-t-15 waves-effect' }) }}
+        </div>
+      </div>
+    </div>
+
+  {{ form_end(form) }}
+
+  </div>
+  <div class="header">
+    <h2>お問い合わせ一覧
+      <small>検索結果 ({{ inquiryList.count }})</small>
+    </h2>
+    <ul class="header-dropdown m-r--5">
+      <li class="dropdown">
+        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+          <i class="material-icons">more_vert</i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li><a href="javascript:void(0);">Action</a></li>
+          <li><a href="javascript:void(0);">Another action</a></li>
+          <li><a href="javascript:void(0);">Something else here</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
   <div class="body">
+    <nav>
+      <ul class="pagination">
+        <li>
+          <a href="?page=1&q={{ q }}">
+            <i class="material-icons">chevron_left</i>
+          </a>
+        </li>
+{% for i in 1..inquiryList.maxPage %}
+        <li{% if (i == inquiryList.page) %} class="active"{% endif %}><a href="?page={{ i }}&q={{ q }}">{{ i }}</a></li>
+{% endfor %}
+        <li>
+          <a href="?page={{ inquiryList.maxPage }}&q={{ q }}" class="waves-effect">
+            <i class="material-icons">chevron_right</i>
+          </a>
+        </li>
+      </ul>
+    </nav>
     <div class="table-responsive">
       <table class="table table-hover dashboard-task-infos">
         <tr>
+          <th>ID</th>
           <th>なまえ</th>
           <td>メール</td>
           <td>電話番号</td>
           <td>編集</td>
           <td>削除</td>
         </tr>
-{% for inquiry in inquiryList %}
+{% for inquiry in inquiryList.resources %}
 <tr>
+    <th>{{ inquiry.id }}</th>
     <th>{{ inquiry.name }}</th>
     <td>{{ inquiry.email }}</td>
     <td>{{ inquiry.tel }}</td>

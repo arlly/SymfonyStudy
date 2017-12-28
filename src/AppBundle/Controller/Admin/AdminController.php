@@ -24,14 +24,16 @@ class AdminController extends Controller
      * @method ("GET")
      * @Route("/admin/index", name="admin.index")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $inquiries = $this->get('app.inquiry_repository')->findAll();
+        //$query = $this->get('app.inquiry_repository')->findAll();
+        $query = $this->get('app.inquiry.search')->run(new InquiryCriteriaBuilder($request->query));
+        $inquiries = $this->getPaginatedResources($query, $request->query);
 
         return $this->render('admin/index.html.twig', array(
             'inquiryList' => $inquiries,
-            'form' => $this->createInquiryForm()
-                ->createView()
+            'form' => $this->createInquiryForm()->createView(),
+            'q' => $request->query->get('q')
         ));
     }
 
@@ -46,9 +48,9 @@ class AdminController extends Controller
         $form->handleRequest($request);
 
         $query = $this->get('app.inquiry.search')->run(new InquiryCriteriaBuilder($request->request));
-        $paginator = new Paginator($query);
-        dump($paginator->getIterator()->getArrayCopy());
-        exit();
+        $inquiries = $this->getPaginatedResources($query, $request->query);
+
+        return $this->redirectToRoute('admin.index', ['q' => $request->request->get('form')['q']]);
     }
 
     /**
@@ -107,7 +109,6 @@ class AdminController extends Controller
             ->add('q', TextType::class)
             ->add('search', SubmitType::class, array(
             'label' => '検索する'
-        ))
-            ->getForm();
+        ))->getForm();
     }
 }
