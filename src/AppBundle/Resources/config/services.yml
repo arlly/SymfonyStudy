@@ -77,3 +77,8 @@ services:
         factory: ["@doctrine.orm.default_entity_manager", getRepository]
         arguments:
             - AppBundle\Entity\Category
+            
+    app.send_mail:
+        class:  AppBundle\Usecase\SendMail
+        arguments: ["@swiftmailer.mailer.default"]
+        
