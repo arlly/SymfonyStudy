@@ -44,15 +44,6 @@ class InquiryController extends Controller
         $inquiry = $form->getData();
         $this->get('app.inquiry.create')->run($inquiry);
 
-        /*
-        $message = \Swift_Message::newInstance()
-            ->setSubject('Webからのお問合せ')
-            ->setFrom('mid_stroll@yahoo.co.jp')
-            ->setTo('arlly1003@gmail.com')
-            ->setBody($this->renderView('mail/inquiry.txt.twig', ['data' => $inquiry]));
-
-        $this->get('mailer')->send($message);
-*/
 
         $this->get('app.send_mail')->run('Webからのお問合せ',
                                          'arimoto@n-di.co.jp',
